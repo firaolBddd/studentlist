@@ -1,0 +1,83 @@
+#include<iostream>
+#include<vector>
+#include <cstring>
+#include <cctype>
+using namespace std;
+
+struct Student{
+//this is the sturcutre that the fomrating will be in
+// and difines all of the varibvles tha i will use
+
+char firstName[80];
+char lastName[80];
+int studetID;
+float GPA;
+};
+
+void AddingStudents(vector<Student*>&students) {
+
+Student* newStudent= new Student;
+cout<<"Enter frist naeme:";
+cin>>(*newStudent).firstName;
+cout<<"Enter last name:";
+cin>>(*newStudent).lastName;
+cout<<"Enter sutdent ID:";
+cin>>(*newStudent).studetID;
+cout<<" enter gpa:";
+cin>>(*newStudent).GPA;
+// this adds all that info to the back of the Vecotr
+// and push it bakc to allow for more space
+students.push_back(newStudent);
+}
+
+//this is used to print out all the stufdet info in the vector
+void Print(const vector<Student*>&students){
+for(const auto&student : students) {
+cout<<(*student).firstName<<" "<<(*student).lastName<<","<<(*student).studetID<<","<<(*student).GPA<<endl;
+}
+}
+bool delet(vector<Student*> &students, int studetID) {
+for(auto m = students.begin(); m != students.end();++m) {
+if((*(*m)).studetID == studetID){
+//dealocating mmeomry
+delete*m;
+students.erase(m);
+return true;
+}
+}
+return false;
+
+}
+int main() {
+bool y= true;
+vector<Student*> students;
+char words[80];
+while(y == true) {
+cout<<"Enter on of these commands [add, print, delete, quit]:";
+cin.getline(words, 80);
+
+if((words[0] == 'a') && (words[1] == 'd') && (words[2] == 'd')) {
+AddingStudents(students);
+}else if((words[0] == 'p')&&(words[1] == 'r') && ( words[2] == 'i') && ( words[3] == 'n') && (words[4] == 't') ) {
+Print(students);
+
+}else if((words[0] == 'd')&& (words[1] == 'e')&&(words[2] == 'l')&&(words[3] == 'e')&&(words[4] == 't')&&(words[5] == 'e') ) {
+
+int studentD;
+cout<< "put the student ID you want to delete";
+cin>>studentD;
+delet(students, studentD);
+}else if((words[0] == 'q') && (words[1] == 'u')&& (words[2] == 'i') && (words[3] == 't') ) {
+for(auto student:students) {
+//delacotes mem
+delete student;
+}
+students.clear();
+break;
+y = false;
+}else{
+cout<<"invalid command. try agin" << endl;
+}
+}
+return 0;
+}
